@@ -15,29 +15,29 @@
 
 int main(void)
 {
-	uint8_t pole[32]={1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0};
+	uint32_t SOS = 0b1010100111011101110010101;
+	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
+	GPIOA->MODER |= GPIO_MODER_MODER5_0;
 	//uint8_t iter=0;
 	while (1)
 	{
-		RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-		GPIOA->MODER |= GPIO_MODER_MODER5_0;
 
 		//GPIOA->BSRR = (1<<5); // set
 		//GPIOA->BRR = (1<<5); // reset
-		for (uint32_t j =0; j<sizeof(pole); j++)
+		for(uint32_t j = 0; j < 32; j++)
 		{
-			if (pole[j]==1)
+			if (SOS & (1<<j))
 			{
 				GPIOA->BSRR = (1<<5);
-				for(volatile uint32_t i=0; i<100000; i++) {}
 			}
 			else
 			{
 				GPIOA->BRR = (1<<5);
-				for(volatile uint32_t i=0; i<100000; i++) {}
 			}
 
+			for (volatile uint32_t i = 0; i < 100000; i++) {}
 		}
+
 
 	}
 
