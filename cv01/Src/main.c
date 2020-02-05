@@ -24,7 +24,7 @@ int main(void)
 
 		//GPIOA->BSRR = (1<<5); // set
 		//GPIOA->BRR = (1<<5); // reset
-		for (uint32_t j =0; j<26; j++)
+		for (uint32_t j =0; j<sizeof(pole); j++)
 		{
 			if (pole[j]==1)
 			{

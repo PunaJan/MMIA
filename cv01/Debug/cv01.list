@@ -180,7 +180,7 @@ int main(void)
 
 		//GPIOA->BSRR = (1<<5); // set
 		//GPIOA->BRR = (1<<5); // reset
-		for (uint32_t j =0; j<26; j++)
+		for (uint32_t j =0; j<sizeof(pole); j++)
  80001ae:	2300      	movs	r3, #0
  80001b0:	62fb      	str	r3, [r7, #44]	; 0x2c
  80001b2:	e026      	b.n	8000202 <main+0xfa>
@@ -230,12 +230,12 @@ int main(void)
  80001f6:	4a06      	ldr	r2, [pc, #24]	; (8000210 <main+0x108>)
  80001f8:	4293      	cmp	r3, r2
  80001fa:	d9f8      	bls.n	80001ee <main+0xe6>
-		for (uint32_t j =0; j<26; j++)
+		for (uint32_t j =0; j<sizeof(pole); j++)
  80001fc:	6afb      	ldr	r3, [r7, #44]	; 0x2c
  80001fe:	3301      	adds	r3, #1
  8000200:	62fb      	str	r3, [r7, #44]	; 0x2c
  8000202:	6afb      	ldr	r3, [r7, #44]	; 0x2c
- 8000204:	2b19      	cmp	r3, #25
+ 8000204:	2b1f      	cmp	r3, #31
  8000206:	d9d5      	bls.n	80001b4 <main+0xac>
 		RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
  8000208:	e7c1      	b.n	800018e <main+0x86>
