@@ -92,7 +92,7 @@ int main(void)
  8000108:	b580      	push	{r7, lr}
  800010a:	b084      	sub	sp, #16
  800010c:	af00      	add	r7, sp, #0
-	uint32_t SOS = 0b1010100111011101110010101;
+	uint32_t SoS = 0b1010100111011101110010101;
  800010e:	4b1b      	ldr	r3, [pc, #108]	; (800017c <main+0x74>)
  8000110:	60bb      	str	r3, [r7, #8]
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
@@ -123,7 +123,7 @@ int main(void)
  8000134:	60fb      	str	r3, [r7, #12]
  8000136:	e01d      	b.n	8000174 <main+0x6c>
 		{
-			if (SOS & (1<<j))
+			if (SoS & (1<<j))
  8000138:	2201      	movs	r2, #1
  800013a:	68fb      	ldr	r3, [r7, #12]
  800013c:	409a      	lsls	r2, r3

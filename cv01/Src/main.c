@@ -15,7 +15,7 @@
 
 int main(void)
 {
-	uint32_t SOS = 0b1010100111011101110010101;
+	uint32_t SoS = 0b1010100111011101110010101;
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
 	GPIOA->MODER |= GPIO_MODER_MODER5_0;
 	//uint8_t iter=0;
@@ -26,7 +26,7 @@ int main(void)
 		//GPIOA->BRR = (1<<5); // reset
 		for(uint32_t j = 0; j < 32; j++)
 		{
-			if (SOS & (1<<j))
+			if (SoS & (1<<j))
 			{
 				GPIOA->BSRR = (1<<5);
 			}
