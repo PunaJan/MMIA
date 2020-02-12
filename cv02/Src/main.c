@@ -48,38 +48,66 @@ void EXTI0_1_IRQHandler(void)
 void tlacitka (void)
 {
 	static uint16_t debounce = 0xFFFF;
-	static uint32_t old_s2;
-	static uint32_t old_s1;
+	static uint16_t debounce2 = 0xFFFF;
+	//static uint32_t old_s2;
+	//static uint32_t old_s1;
 	static uint32_t off_time;
 	static uint32_t delay;
 	uint32_t new_s2 = GPIOC->IDR & (1<<0);
 	uint32_t new_s1 = GPIOC->IDR & (1<<1);
 
-	if (Tick > delay + WAIT)
+	if (Tick > delay + DR)
 	{
-		if (old_s2 && !new_s2) { // falling edge
+
+		debounce <<= 1;
+		debounce2 <<= 1;
+
+		if (new_s2)
+		{
+			debounce |= 0x0001;
+		}
+
+		if (new_s1)
+		{
+			debounce2 |= 0x0001;
+		}
+
+		if (debounce == 0x8000)
+		{
 			off_time = Tick + LED_TIME_SHORT;
 			GPIOB->BSRR = (1<<0);
-
 		}
 
-		old_s2 = new_s2;
-
-		if (old_s1 && !new_s1) { // falling edge
-
+		if (debounce2 == 0x8000)
+		{
 			off_time = Tick + LED_TIME_LONG;
 			GPIOB->BSRR = (1<<0);
-
 		}
-		old_s1 = new_s1;
 
-		if (Tick > off_time) {
-			GPIOB->BRR = (1<<0);
-		}
+
 
 		delay = Tick;
 	}
 
+	if (Tick > off_time) {
+		GPIOB->BRR = (1<<0);
+	}
+
+		/*if (old_s2 && !new_s2) { // falling edge
+		off_time = Tick + LED_TIME_SHORT;
+		GPIOB->BSRR = (1<<0);
+
+	}
+
+	old_s2 = new_s2;
+
+	if (old_s1 && !new_s1) { // falling edge
+
+		off_time = Tick + LED_TIME_LONG;
+		GPIOB->BSRR = (1<<0);
+
+	}
+	old_s1 = new_s1;*/
 
 }
 
@@ -97,12 +125,12 @@ int main(void)
 	//uint8_t iter=0;
 
 	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
-
+/*
 	SYSCFG->EXTICR[0] |= SYSCFG_EXTICR1_EXTI0_PC; // select PC0 for EXTI0
 	EXTI->IMR |= EXTI_IMR_MR0; // mask
 	EXTI->FTSR |= EXTI_FTSR_TR0; // trigger on falling edge
 	NVIC_EnableIRQ(EXTI0_1_IRQn); // enable EXTI0_1
-
+*/
 
 	//2.3 //////////////////////////////////////////////////////////
 
