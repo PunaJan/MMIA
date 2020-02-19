@@ -17,11 +17,16 @@
 int main(void)
 {
 	sct_init();
-	sct_led(0x7A5C36DE);
-	for (volatile uint32_t i = 0; i < 100000; i++) {}
 
 	while (1)
 	{
+		for (uint16_t j = 0; j<=999; j+=111)
+		{
+			sct_value(j);
+			for (volatile uint32_t i = 0; i < 100000; i++) {}
+		}
 
 	}
+
+
 }
