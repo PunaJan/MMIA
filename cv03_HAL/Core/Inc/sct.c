@@ -4,9 +4,10 @@
  *  Created on: 19. 2. 2020
  *      Author: student
  */
-#include "sct.h"
-#include <stm32f0xx.h>
+
+//#include <stm32f0xx.h>
 #include "main.h"
+#include "sct.h"
 
 void sct_led(uint32_t value)
 {

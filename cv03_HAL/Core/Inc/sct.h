@@ -7,7 +7,7 @@
 
 #ifndef SCT_H_
 #define SCT_H_
-#include <stm32f0xx.h>
+//#include <stm32f0xx.h>
 
 void sct_led(uint32_t value);
 void sct_init(void);
