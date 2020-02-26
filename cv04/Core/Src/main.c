@@ -72,16 +72,18 @@ static void MX_ADC_Init(void);
 static volatile uint32_t raw_pot;
 static volatile uint32_t raw_temp;
 static volatile uint32_t raw_volt;
-static uint8_t channel;
+
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
 	static uint32_t avg_pot;
+	static uint8_t channel;
+
 	if (channel == 0)
 	{
-	raw_pot = avg_pot >> ADC_Q;
-	avg_pot -= raw_pot;
-	avg_pot += HAL_ADC_GetValue(hadc);
+		raw_pot = avg_pot >> ADC_Q;
+		avg_pot -= raw_pot;
+		avg_pot += HAL_ADC_GetValue(hadc);
 	}
 	else if (channel == 1)
 	{
@@ -93,8 +95,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 	}
 
 
-	 if (__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_EOS)) channel = 0;
-	 else channel++;
+	if (__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_EOS)) channel = 0;
+	else channel++;
 
 	//raw_pot = HAL_ADC_GetValue(hadc);
 }
@@ -138,14 +140,12 @@ int main(void)
 
   sct_init();
 
-  HAL_ADC_ConvCpltCallback(&hadc);
 
-  GPIOC->PUPDR |= GPIO_PUPDR_PUPDR0_0; // S2 = PC0, pullup
-  GPIOC->PUPDR |= GPIO_PUPDR_PUPDR1_0; // S1 = PC1, pullup
+  //GPIOC->PUPDR |= GPIO_PUPDR_PUPDR0_0; // S2 = PC0, pullup
+  //GPIOC->PUPDR |= GPIO_PUPDR_PUPDR1_0; // S1 = PC1, pullup
 
   /* USER CODE END 2 */
-
-
+ 
  
 
   /* Infinite loop */
@@ -153,20 +153,22 @@ int main(void)
   while (1)
   {
 
-	  sct_value((raw_pot*500)/4096, (raw_pot*9)/4096);
-	  HAL_Delay(50);
+	  //sct_value((raw_pot*500)/4096, (raw_pot*9)/4096);
+	  //HAL_Delay(50);
 
 	  static uint32_t delay;
 
 	  static enum { SHOW_POT, SHOW_VOLT, SHOW_TEMP } state = SHOW_POT;
 
-	  if (HAL_GPIO_ReadPin(GPIOC, 0))
+	  if (HAL_GPIO_ReadPin(S1_GPIO_Port, S1_Pin) == 0)
 	  {
 		  state = SHOW_VOLT;
+		  delay = HAL_GetTick();
 	  }
-	  else if (HAL_GPIO_ReadPin(GPIOC, 1))
+	  else if (HAL_GPIO_ReadPin(S2_GPIO_Port, S2_Pin) == 0)
 	  {
-		  state = SHOW_VOLT;
+		  state = SHOW_TEMP;
+		  delay = HAL_GetTick();
 	  }
 
 
@@ -183,10 +185,10 @@ int main(void)
 
 		  if (HAL_GetTick() > delay + DELAY) {
 			  GPIOA->ODR ^= (1<<4);
-			  delay = HAL_GetTick();
+			  state = SHOW_POT;
 		  }
 
-		  state = SHOW_POT;
+
 	  }
 	  if (state == SHOW_TEMP)
 	  {
@@ -198,9 +200,9 @@ int main(void)
 		  sct_value(temperature, (raw_pot*9)/4096);
 		  if (HAL_GetTick() > delay + DELAY) {
 			  GPIOA->ODR ^= (1<<4);
-			  delay = HAL_GetTick();
+			  state = SHOW_POT;
 		  }
-		  state = SHOW_POT;
+
 	  }
 
     /* USER CODE END WHILE */
@@ -379,7 +381,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pins : S2_Pin S1_Pin */
   GPIO_InitStruct.Pin = S2_Pin|S1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
