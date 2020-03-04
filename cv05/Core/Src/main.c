@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -79,39 +80,57 @@ static void uart_process_command(char *cmd)
 {
 	printf("prijato: '%s'\n", cmd);
 
-/*	char *token;
+	char *token;
 	token = strtok(cmd, " ");
 	if (strcasecmp(token, "HELLO") == 0) {
 		printf("Komunikace OK\n");
 	}
 	else if (strcasecmp(token, "LED1") == 0)
 	{
+		printf("OK\n");
 		token = strtok (NULL, " ");
+		//token = strtok(cmd, " ");
 		if (strcasecmp(token, "ON") == 0)
 		{
 			HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
-			printf("OK\n");
+			printf("OK sviti\n");
 		}
 		else if (strcasecmp(token, "OFF") == 0)
 		{
 			HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 0);
-			printf("OK\n");
+			printf("OK nesviti\n");
 		}
 	}
-	*/
+	else if (strcasecmp(token, "LED2") == 0)
+	printf("OK\n");
+	{
+		token = strtok (NULL, " ");
+		//token = strtok(cmd, " ");
+		if (strcasecmp(token, "ON") == 0)
+		{
+			HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, 1);
+			printf("OK sviti\n");
+		}
+		else if (strcasecmp(token, "OFF") == 0)
+		{
+			HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, 0);
+			printf("OK nesviti\n");
+		}
+	}
+
+
 }
 
 
 static void uart_byte_available(uint8_t c)
 {
-	if (c > 32 || c < 126)
-	{
+
 		static uint16_t cnt;
 
 		static char data[CMD_BUFFER_LEN];
-		if (cnt < CMD_BUFFER_LEN) data[cnt++] = c;
+		if (cnt < CMD_BUFFER_LEN && (c >= 32 && c <= 126)) data[cnt++] = c;
 		if (c == '\n' || c == '\r') {
-			data[cnt - 1] = '\0';
+			data[cnt] = '\0';
 			uart_process_command(data);
 			cnt = 0;
 		}
@@ -122,7 +141,7 @@ static void uart_byte_available(uint8_t c)
 				data[i] = 0;
 			}
 		}
-	}
+
 }
 /* USER CODE END 0 */
 

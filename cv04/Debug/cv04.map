@@ -3208,7 +3208,7 @@ LOAD c:/appz/st/stm32cubeide_1.2.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu
  *(.rodata)
  .rodata        0x0000000008002c50       0x20 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o
  *(.rodata*)
- .rodata.reg_values.5589
+ .rodata.reg_values.5592
                 0x0000000008002c70       0xa0 Core/Inc/sct.o
  .rodata.AHBPrescTable
                 0x0000000008002d10       0x10 Core/Src/system_stm32f0xx.o
@@ -3287,19 +3287,19 @@ LOAD c:/appz/st/stm32cubeide_1.2.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu
  *(.bss)
  .bss           0x000000002000000c       0x1c c:/appz/st/stm32cubeide_1.2.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.0.0.201904181610/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
  *(.bss*)
- .bss.reg.5588  0x0000000020000028        0x4 Core/Inc/sct.o
+ .bss.reg.5591  0x0000000020000028        0x4 Core/Inc/sct.o
  .bss.raw_pot   0x000000002000002c        0x4 Core/Src/main.o
  .bss.raw_temp  0x0000000020000030        0x4 Core/Src/main.o
  .bss.raw_volt  0x0000000020000034        0x4 Core/Src/main.o
- .bss.channel.5591
+ .bss.channel.5594
                 0x0000000020000038        0x1 Core/Src/main.o
  *fill*         0x0000000020000039        0x3 
- .bss.avg_pot.5590
+ .bss.avg_pot.5593
                 0x000000002000003c        0x4 Core/Src/main.o
- .bss.state.5600
+ .bss.state.5603
                 0x0000000020000040        0x1 Core/Src/main.o
  *fill*         0x0000000020000041        0x3 
- .bss.delay.5595
+ .bss.delay.5598
                 0x0000000020000044        0x4 Core/Src/main.o
  *(COMMON)
  COMMON         0x0000000020000048       0xc0 Core/Src/main.o

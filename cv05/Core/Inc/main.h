@@ -54,7 +54,7 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+int strcmp ( const char * str1, const char * str2 );
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
